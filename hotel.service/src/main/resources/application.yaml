@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: hotel-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hotel-service
+    username: perfectkode
+    password: perfectkode
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        globally_quoted_identifiers: true
+
+  config:
+    import: optional:configserver:http://localhost:8095
+
+server:
+  port: 8091
