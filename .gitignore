@@ -10,8 +10,6 @@
 target/
 HELP.md
 
-test/
-
 .mvn/
 mvnw
 mvnw.cmd
