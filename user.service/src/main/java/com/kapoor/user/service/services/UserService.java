@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -31,20 +32,29 @@ public class UserService {
         return u;
     }
 
-    public User getUserById(UUID id){
-        User u = userRepository.findById(id).orElseThrow(() ->
-                new CustomException("User not found","404"));
+    public User getUserById(UUID id) {
+        User user = getUserCore(id);
 
-        List<Rating> list = ratingService.getRatingsOfUser(u.getId());
-        List<Rating> ratingList = list.stream()
-                .map(l -> {
-                    Hotel hotel = hotelService.getHotel(l.getHotelId());
-                    l.setHotel(hotel);
-                    return l;
-                }).collect(Collectors.toList());
-        u.setRatings(ratingList);
-        return u;
+        List<Rating> ratings = ratingService.getRatingsOfUser(id);
+        ratings.forEach(r -> r.setHotel(
+                hotelService.getHotel(r.getHotelId())
+        ));
+
+        user.setRatings(ratings);
+        return user;
     }
+
+    public User getUserWithoutRatings(UUID id) {
+        User user = getUserCore(id);
+        user.setRatings(Collections.emptyList());
+        return user;
+    }
+
+    private User getUserCore(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new CustomException("User not found", "404"));
+    }
+
     public List<User> getAll(){
         return userRepository.findAll();
     }
