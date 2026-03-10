@@ -30,7 +30,7 @@ spring:
 
 management:
   health:
-    circuitebreakers:
+    circuitbreakers:
       enabled: true
   endpoints:
     web:
