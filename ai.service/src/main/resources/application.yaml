@@ -31,10 +31,10 @@ spring:
     routing:
       key: hotel.rating
 
-  gemini:
-    api:
-      url: https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=
-      key: AIzaSyBekCNY3jJTYtGFW_XN59FNVAi4cwOj3SQ
+gemini:
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
 
   config:
     import: optional:configserver:http://localhost:8095

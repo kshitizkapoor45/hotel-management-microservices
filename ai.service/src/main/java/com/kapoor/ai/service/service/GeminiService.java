@@ -16,10 +16,10 @@ import java.util.List;
 public class GeminiService {
     private final WebClient webClient;
 
-    @Value("${spring.gemini.api.key}")
+    @Value("${gemini.api.key}")
     private String apiKey;
 
-    @Value("${spring.gemini.api.url}")
+    @Value("${gemini.api.url}")
     private String url;
 
     private GeminiRequest buildRequest(String prompt) {
