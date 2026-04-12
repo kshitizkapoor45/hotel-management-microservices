@@ -3,6 +3,7 @@ package com.kapoor.ai.service.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,11 +20,9 @@ public class HotelReview {
     @Column(columnDefinition = "text")
     private String summary;
 
-    @Column(columnDefinition = "jsonb")
-    private String pros;
+    private List<String> pros;
 
-    @Column(columnDefinition = "jsonb")
-    private String cons;
+    private List<String> cons;
 
     private Double sentimentScore;
 
