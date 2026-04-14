@@ -24,5 +24,4 @@ public class HotelReviewService {
                 ))
                 .orElseThrow(() -> new RuntimeException("Hotel review not found"));
     }
-
 }

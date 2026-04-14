@@ -6,6 +6,9 @@ import lombok.*;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.Array;
+import org.hibernate.annotations.JdbcTypeCode;
+
 @Entity
 @Getter
 @Setter
@@ -29,6 +32,10 @@ public class HotelReview {
     private Integer totalReviews;
 
     private Double averageRating;
+
+    @Column(columnDefinition = "vector(1536)")
+    @JdbcTypeCode(java.sql.Types.OTHER)
+    private List<Double> embedding;
 
     private UUID hotelId;
 }

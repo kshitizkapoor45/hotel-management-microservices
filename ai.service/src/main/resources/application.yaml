@@ -3,10 +3,24 @@ spring:
     name: ai.service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/ai-service
-    username: perfectkode
-    password: perfectkode
+    url: jdbc:postgresql://localhost:5433/ai-service
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
+
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_KEY}
+        embedding:
+          options:
+            model: models/gemini-embedding-001
+            output-dimensionality: 1536
+
+    vectorstore:
+      pgvector:
+        dimensions: 1536
+        distance-type: COSINE_DISTANCE
 
   jpa:
     database: postgresql
@@ -17,7 +31,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-        globally_quoted_identifiers: true
+        globally_quoted_identifiers: false
+
+  config:
+    import: optional:configserver:http://localhost:8095
 
   rabbitmq:
     host: localhost
@@ -35,9 +52,6 @@ gemini:
   api:
     url: ${GEMINI_URL}
     key: ${GEMINI_KEY}
-
-  config:
-    import: optional:configserver:http://localhost:8095
 
 server:
   port: 8096
