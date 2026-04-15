@@ -11,15 +11,15 @@ spring:
   ai:
     google:
       genai:
-        api-key: ${GEMINI_KEY}
         embedding:
-          options:
-            model: models/gemini-embedding-001
-            output-dimensionality: 1536
-
+          api-key: ${GEMINI_KEY}
+          text:
+            options:
+              model: text-embedding-004
+              dimensions: 768
     vectorstore:
       pgvector:
-        dimensions: 1536
+        dimensions: 768
         distance-type: COSINE_DISTANCE
 
   jpa:

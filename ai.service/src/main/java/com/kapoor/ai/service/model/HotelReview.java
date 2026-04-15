@@ -33,7 +33,7 @@ public class HotelReview {
 
     private Double averageRating;
 
-    @Column(columnDefinition = "vector(1536)")
+    @Column(columnDefinition = "vector(768)")
     @JdbcTypeCode(java.sql.Types.OTHER)
     private List<Double> embedding;
 
