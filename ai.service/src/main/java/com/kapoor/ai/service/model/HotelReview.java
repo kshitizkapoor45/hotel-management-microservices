@@ -33,9 +33,9 @@ public class HotelReview {
 
     private Double averageRating;
 
-    @Column(columnDefinition = "vector(768)")
-    @JdbcTypeCode(java.sql.Types.OTHER)
-    private List<Double> embedding;
+//    @Column(columnDefinition = "vector(768)")
+//    @JdbcTypeCode(java.sql.Types.OTHER)
+//    private List<Double> embedding;
 
     private UUID hotelId;
 }

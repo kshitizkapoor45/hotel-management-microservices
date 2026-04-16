@@ -23,9 +23,9 @@ public class RatingService {
     @Value("${spring.rabbitmq.routing.key}")
     private String routingKey;
 
-    public Response save(Rating hotel){
-        ratingRepository.save(hotel);
-        rabbitTemplate.convertAndSend(exchange, routingKey, hotel);
+    public Response save(Rating rating){
+        ratingRepository.save(rating);
+        rabbitTemplate.convertAndSend(exchange, routingKey, rating);
         return new Response("Rating saved successfully");
     }
 

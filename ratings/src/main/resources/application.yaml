@@ -3,9 +3,9 @@ spring:
     name: rating-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/rating-service
-    username: perfectkode
-    password: perfectkode
+    url: jdbc:postgresql://localhost:5433/rating-service
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -18,6 +18,22 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
         globally_quoted_identifiers: true
+
+
+  ai:
+    google:
+      genai:
+        embedding:
+          api-key: ${GEMINI_KEY}
+          text:
+            options:
+              model: text-embedding-004
+              dimensions: 768
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        dimensions: 768
+        distance-type: COSINE_DISTANCE
 
   rabbitmq:
     host: localhost

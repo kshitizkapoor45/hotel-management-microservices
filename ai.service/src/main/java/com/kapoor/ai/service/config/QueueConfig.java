@@ -16,15 +16,26 @@ public class QueueConfig {
     @Value("${spring.rabbitmq.exchange.name}")
     private String exchange;
 
-    @Value("${spring.rabbitmq.queue.name}")
-    private String queue;
+    @Value("${spring.rabbitmq.queues.ratingQueue}")
+    private String ratingQueue;
 
-    @Value("${spring.rabbitmq.routing.key}")
-    private String routingKey;
+    @Value("${spring.rabbitmq.queues.hotelQueue}")
+    private String hotelQueue;
+
+    @Value("${spring.rabbitmq.routing.hotelEmbedding}")
+    private String hotelKey;
+
+    @Value("${spring.rabbitmq.routing.ratingEmbedding}")
+    private String ratingKey;
 
     @Bean
     public Queue ratingsQueue() {
-        return new Queue(queue, true);
+        return new Queue(ratingQueue, true);
+    }
+
+    @Bean
+    public Queue hotelQueue() {
+        return new Queue(hotelQueue, true);
     }
 
     @Bean
@@ -33,9 +44,15 @@ public class QueueConfig {
     }
 
     @Bean
-    public Binding ratingsBinding(DirectExchange exchange, Queue queue){
-        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+    public Binding ratingsBinding(DirectExchange exchange){
+        return BindingBuilder.bind(ratingsQueue()).to(exchange).with(ratingKey);
     }
+
+    @Bean
+    public Binding hotelBinding(DirectExchange exchange){
+        return BindingBuilder.bind(hotelQueue()).to(exchange).with(hotelKey);
+    }
+
 
     @Bean
     public MessageConverter messageConverter(){
