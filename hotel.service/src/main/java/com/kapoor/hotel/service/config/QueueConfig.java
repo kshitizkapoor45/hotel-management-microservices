@@ -1,4 +1,4 @@
-package com.kapoor.ratings.config;
+package com.kapoor.hotel.service.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

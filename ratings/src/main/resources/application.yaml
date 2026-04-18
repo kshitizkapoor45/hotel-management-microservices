@@ -42,10 +42,12 @@ spring:
     password: guest
     exchange:
       name: hotel-exchange
-    queue:
-      name: rating-queue
+    queues:
+      ratingQueue: rating-queue
+      hotelQueue: hotel-embedding-queue
     routing:
-        key: hotel.rating
+      ratingEmbedding: hotel.rating
+      hotelEmbedding: hotel.embedding
 
   config:
     import: optional:configserver:http://localhost:8095

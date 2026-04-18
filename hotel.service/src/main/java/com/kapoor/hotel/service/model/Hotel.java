@@ -1,11 +1,10 @@
 package com.kapoor.hotel.service.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,5 +22,8 @@ public class Hotel {
 
     private String name;
 
+    private List<String> amenities = new ArrayList<>();
+
+    @Column(length = 2000)
     private String about;
 }

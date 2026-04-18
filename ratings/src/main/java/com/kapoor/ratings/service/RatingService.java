@@ -20,12 +20,12 @@ public class RatingService {
     @Value("${spring.rabbitmq.exchange.name}")
     private String exchange;
 
-    @Value("${spring.rabbitmq.routing.key}")
-    private String routingKey;
+    @Value("${spring.rabbitmq.routing.ratingEmbedding}")
+    private String ratingKey;
 
     public Response save(Rating rating){
         ratingRepository.save(rating);
-        rabbitTemplate.convertAndSend(exchange, routingKey, rating);
+        rabbitTemplate.convertAndSend(exchange, ratingKey, rating);
         return new Response("Rating saved successfully");
     }
 

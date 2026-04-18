@@ -8,6 +8,20 @@ spring:
     password: perfectkode
     driver-class-name: org.postgresql.Driver
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    exchange:
+      name: hotel-exchange
+    queues:
+      ratingQueue: rating-queue
+      hotelQueue: hotel-embedding-queue
+    routing:
+      ratingEmbedding: hotel.rating
+      hotelEmbedding: hotel.embedding
+
   jpa:
     database: postgresql
     show-sql: true

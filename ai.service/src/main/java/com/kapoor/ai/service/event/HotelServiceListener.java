@@ -21,8 +21,10 @@ public class HotelServiceListener {
 
     @RabbitListener(queues = "${spring.rabbitmq.queues.hotelQueue}")
     public void handleHotelEmbedding(Hotel hotel) {
+        log.info("Received hotel creation event");
         String content = embeddingHelper.buildHotelContent(hotel);
-        String docId = "hotel-" + hotel.getId();
+
+        String docId = hotel.getId().toString();
 
         Document doc = new Document(
                 docId,
