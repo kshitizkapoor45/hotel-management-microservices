@@ -1,5 +1,6 @@
 package com.kapoor.ai.service.dto;
 
+import com.kapoor.ai.service.model.Hotel;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,5 +9,5 @@ import lombok.Data;
 public class HotelSearchResponse {
     private String hotelId;
     private Double score;
-    private String content;
+    private Hotel hotel;
 }

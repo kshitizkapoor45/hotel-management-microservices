@@ -13,19 +13,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QueueConfig {
 
-    @Value("${spring.rabbitmq.exchange.name}")
+    @Value("${app.rabbitmq.exchange}")
     private String exchange;
 
-    @Value("${spring.rabbitmq.queues.ratingQueue}")
+    @Value("${app.rabbitmq.queues.rating}")
     private String ratingQueue;
 
-    @Value("${spring.rabbitmq.queues.hotelQueue}")
+    @Value("${app.rabbitmq.queues.hotel}")
     private String hotelQueue;
 
-    @Value("${spring.rabbitmq.routing.hotelEmbedding}")
+    @Value("${app.rabbitmq.routing.hotelEmbedding}")
     private String hotelKey;
 
-    @Value("${spring.rabbitmq.routing.ratingEmbedding}")
+    @Value("${app.rabbitmq.routing.ratingEmbedding}")
     private String ratingKey;
 
     @Bean

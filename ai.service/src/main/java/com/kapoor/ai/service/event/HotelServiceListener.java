@@ -19,7 +19,7 @@ public class HotelServiceListener {
     private final VectorStore vectorStore;
     private final EmbeddingHelper embeddingHelper;
 
-    @RabbitListener(queues = "${spring.rabbitmq.queues.hotelQueue}")
+    @RabbitListener(queues = "${app.rabbitmq.queues.hotel}")
     public void handleHotelEmbedding(Hotel hotel) {
         log.info("Received hotel creation event");
         String content = embeddingHelper.buildHotelContent(hotel);

@@ -17,10 +17,10 @@ public class HotelService {
     private final HotelRepository hotelRepository;
     private final RabbitTemplate rabbitTemplate;
 
-    @Value("${spring.rabbitmq.exchange.name}")
+    @Value("${app.rabbitmq.exchange}")
     private String exchange;
 
-    @Value("${spring.rabbitmq.routing.hotelEmbedding}")
+    @Value("${app.rabbitmq.routing.hotelEmbedding}")
     private String hotelKey;
 
     public Response saveHotel(Hotel hotel){

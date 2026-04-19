@@ -1,5 +1,6 @@
 package com.kapoor.ai.service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,14 +13,15 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Hotel {
     private UUID id;
 
-    private String location;
-
     private String name;
 
-    private String about;
+    private String location;
 
     private List<String> amenities;
+
+    private String about;
 }

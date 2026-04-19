@@ -17,10 +17,10 @@ public class RatingService {
     private final RatingRepository ratingRepository;
     private final RabbitTemplate rabbitTemplate;
 
-    @Value("${spring.rabbitmq.exchange.name}")
+    @Value("${app.rabbitmq.exchange}")
     private String exchange;
 
-    @Value("${spring.rabbitmq.routing.ratingEmbedding}")
+    @Value("${app.rabbitmq.routing.ratingEmbedding}")
     private String ratingKey;
 
     public Response save(Rating rating){

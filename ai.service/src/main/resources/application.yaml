@@ -37,20 +37,6 @@ spring:
   config:
     import: optional:configserver:http://localhost:8095
 
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-    exchange:
-      name: hotel-exchange
-    queues:
-      ratingQueue: rating-queue
-      hotelQueue: hotel-embedding-queue
-    routing:
-      ratingEmbedding: hotel.rating
-      hotelEmbedding: hotel.embedding
-
 gemini:
   api:
     url: ${GEMINI_URL}

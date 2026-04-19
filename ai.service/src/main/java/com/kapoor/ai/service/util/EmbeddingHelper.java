@@ -1,5 +1,7 @@
 package com.kapoor.ai.service.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kapoor.ai.service.dto.HotelReviewDto;
 import com.kapoor.ai.service.model.Hotel;
 import com.kapoor.ai.service.model.HotelReview;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class EmbeddingHelper {
 
     private final AiService aiService;
+    private final ObjectMapper objectMapper;
 
     public void updateAggregates(HotelReview review, Rating rating) {
         int currentTotal = Optional.ofNullable(review.getTotalReviews()).orElse(0);
@@ -63,22 +66,17 @@ public class EmbeddingHelper {
         );
     }
 
-    public String buildHotelContent(Hotel hotel){
-        String content = """
-                Hotel Name: %s
-                Location: %s
-                
-                Amenities:
-                %s
-                
-                Description:
-                %s
-                """.formatted(
-                hotel.getName(),
-                hotel.getLocation(),
-                String.join(", ", hotel.getAmenities()),
-                hotel.getAbout()
-        );
-        return content;
+    public String buildHotelContent(Hotel hotel) {
+        try {
+            Map<String, Object> contentMap = Map.of(
+                    "name",        hotel.getName(),
+                    "location",    hotel.getLocation(),
+                    "amenities",   hotel.getAmenities(),
+                    "about", hotel.getAbout()
+            );
+            return objectMapper.writeValueAsString(contentMap);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Unable to parse JSON");
+        }
     }
 }

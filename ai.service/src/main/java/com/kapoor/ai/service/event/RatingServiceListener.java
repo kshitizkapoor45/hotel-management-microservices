@@ -21,7 +21,7 @@ public class RatingServiceListener {
     private final HotelReviewRepository hotelReviewRepository;
     private final VectorStore vectorStore;
 
-    @RabbitListener(queues = "${spring.rabbitmq.queues.ratingQueue}")
+    @RabbitListener(queues = "${app.rabbitmq.queues.rating}")
     public void processRatingUpdate(Rating rating) {
         log.info("Received rating update");
 
