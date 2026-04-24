@@ -9,7 +9,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://127.0.0.1:8443/realms/hotel-microservice
+          jwk-set-uri: http://localhost:8443/realms/hotel-microservice/protocol/openid-connect/certs
 
 server:
   port: 8094
