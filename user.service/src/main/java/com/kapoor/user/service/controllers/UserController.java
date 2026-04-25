@@ -1,5 +1,7 @@
 package com.kapoor.user.service.controllers;
 
+import com.kapoor.user.service.dto.CompleteUserResponse;
+import com.kapoor.user.service.dto.UserResponse;
 import com.kapoor.user.service.entities.User;
 import com.kapoor.user.service.services.UserService;
 import com.kapoor.user.service.services.UserSyncService;
@@ -46,19 +48,19 @@ public class UserController {
 
     @GetMapping("/{id}")
     @CircuitBreaker(name = "ratingHotelBreaker",fallbackMethod = "fallbackRatingHotel")
-    public ResponseEntity<User> getById(@PathVariable UUID id){
+    public ResponseEntity<CompleteUserResponse> getById(@PathVariable UUID id){
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserById(id));
     }
 
-    public ResponseEntity<User> fallbackRatingHotel(UUID id, Throwable ex) {
-        User user = userService.getUserWithoutRatings(id);
+    public ResponseEntity<UserResponse> fallbackRatingHotel(UUID id, Throwable ex) {
+        UserResponse user = userService.getUserWithoutRatings(id);
         log.warn("Fallback triggered for getById [{}]: {}", id, ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(user);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> saveUser(){
+    public ResponseEntity<List<UserResponse>> saveUser(){
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAll());
     }
 }

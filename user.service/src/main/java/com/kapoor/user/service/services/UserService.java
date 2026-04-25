@@ -2,11 +2,14 @@ package com.kapoor.user.service.services;
 
 import com.kapoor.user.service.config.HotelService;
 import com.kapoor.user.service.config.RatingService;
+import com.kapoor.user.service.dto.CompleteUserResponse;
 import com.kapoor.user.service.dto.Hotel;
 import com.kapoor.user.service.dto.Rating;
+import com.kapoor.user.service.dto.UserResponse;
 import com.kapoor.user.service.entities.User;
 import com.kapoor.user.service.exception.CustomException;
 import com.kapoor.user.service.repositories.UserRepository;
+import com.kapoor.user.service.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,28 +29,25 @@ public class UserService {
     private final UserRepository userRepository;
     private final HotelService hotelService;
     private final RatingService ratingService;
+    private final Mapper mapper;
 
     public User saveUser(User user){
         User u = userRepository.save(user);
         return u;
     }
 
-    public User getUserById(UUID id) {
-        User user = getUserCore(id);
+    public CompleteUserResponse getUserById(UUID id) {
+        UserResponse user = mapper.mapToUser(getUserCore(id));
 
         List<Rating> ratings = ratingService.getRatingsOfUser(id);
         ratings.forEach(r -> r.setHotel(
                 hotelService.getHotel(r.getHotelId())
         ));
-
-        user.setRatings(ratings);
-        return user;
+        return new CompleteUserResponse(user,ratings);
     }
 
-    public User getUserWithoutRatings(UUID id) {
-        User user = getUserCore(id);
-        user.setRatings(Collections.emptyList());
-        return user;
+    public UserResponse getUserWithoutRatings(UUID id) {
+        return mapper.mapToUser(getUserCore(id));
     }
 
     private User getUserCore(UUID id) {
@@ -55,7 +55,8 @@ public class UserService {
                 .orElseThrow(() -> new CustomException("User not found", "404"));
     }
 
-    public List<User> getAll(){
-        return userRepository.findAll();
+    public List<UserResponse> getAll(){
+        return userRepository.findAll().stream()
+                .map(u -> mapper.mapToUser(u)).toList();
     }
 }

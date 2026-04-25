@@ -8,6 +8,12 @@ spring:
     password: perfectkode
     driver-class-name: org.postgresql.Driver
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8443/realms/hotel-microservice
+
   rabbitmq:
     host: localhost
     port: 5672

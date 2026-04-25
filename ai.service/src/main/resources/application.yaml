@@ -8,6 +8,12 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8443/realms/hotel-microservice
+
   ai:
     google:
       genai:
