@@ -6,6 +6,7 @@ import com.kapoor.hotel.service.util.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class HotelController {
     private final HotelService hotelService;
 
     @PostMapping("/register")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Response> saveHotel(@RequestBody Hotel hotel){
         return ResponseEntity.status(HttpStatus.CREATED).body(hotelService.saveHotel(hotel));
     }
