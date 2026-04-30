@@ -1,16 +1,20 @@
 package com.kapoor.user.service.controllers;
 
 import com.kapoor.user.service.dto.CompleteUserResponse;
+import com.kapoor.user.service.dto.UpdateUserRequest;
 import com.kapoor.user.service.dto.UserResponse;
 import com.kapoor.user.service.entities.User;
 import com.kapoor.user.service.services.UserService;
 import com.kapoor.user.service.services.UserSyncService;
+import com.kapoor.user.service.util.Response;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,28 +35,27 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(user));
     }
 
-    @GetMapping("/debug")
-    public String debug(Authentication auth) {
-        return auth.getClass().getName();
+    @GetMapping("/profile")
+    public ResponseEntity<UserResponse> getUser(@AuthenticationPrincipal Jwt jwt) {
+        String id = jwt.getSubject();
+        UserResponse user = userService.getUserWithoutRatings(id);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
-    @GetMapping("/sync-test")
-    public User syncTest(JwtAuthenticationToken auth) {
-        return userSyncService.syncUser(auth.getToken());
-    }
-
-    @GetMapping("/roles")
-    public Object roles(JwtAuthenticationToken auth) {
-        return auth.getAuthorities();
+    @PutMapping("/edit")
+    public ResponseEntity<Response> editUser(@AuthenticationPrincipal Jwt jwt, @RequestBody UpdateUserRequest request) {
+        String id = jwt.getSubject();
+        Response response = userService.editUser(id,request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/{id}")
     @CircuitBreaker(name = "ratingHotelBreaker",fallbackMethod = "fallbackRatingHotel")
-    public ResponseEntity<CompleteUserResponse> getById(@PathVariable UUID id){
+    public ResponseEntity<CompleteUserResponse> getById(@PathVariable String id){
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserById(id));
     }
 
-    public ResponseEntity<UserResponse> fallbackRatingHotel(UUID id, Throwable ex) {
+    public ResponseEntity<UserResponse> fallbackRatingHotel(String id, Throwable ex) {
         UserResponse user = userService.getUserWithoutRatings(id);
         log.warn("Fallback triggered for getById [{}]: {}", id, ex.getMessage());
 

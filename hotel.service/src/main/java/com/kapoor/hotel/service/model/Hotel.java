@@ -24,6 +24,8 @@ public class Hotel {
 
     private List<String> amenities = new ArrayList<>();
 
+    private String imageUrl;
+
     @Column(length = 2000)
     private String about;
 }

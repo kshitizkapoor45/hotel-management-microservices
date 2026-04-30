@@ -1,9 +1,7 @@
 package com.kapoor.user.service.dto;
 
-public record UserResponse(
+public record UpdateUserRequest(
         String name,
-        String email,
-        String keycloakId,
         String location,
         String mobileNumber
 ) {

@@ -37,4 +37,8 @@ public class HotelService {
     public List<Hotel> getAll(){
         return hotelRepository.findAll();
     }
+
+    public List<Hotel> getRecommendedHotels(){
+        return hotelRepository.findAll();
+    }
 }

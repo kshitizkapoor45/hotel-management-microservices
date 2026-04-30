@@ -27,6 +27,10 @@ public class User {
 
     private String email;
 
+    private String mobileNumber;
+
+    private String location;
+
     @Transient
     private List<Rating> ratings = new ArrayList<>();
 }

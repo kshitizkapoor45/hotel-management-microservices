@@ -14,7 +14,9 @@ public class Mapper {
         return new UserResponse(
                 user.getName(),
                 user.getEmail(),
-                user.getKeycloakId()
+                user.getKeycloakId(),
+                user.getLocation(),
+                user.getMobileNumber()
         );
     }
 }
