@@ -19,7 +19,7 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private UUID userId;
+    private String userId;
 
     private UUID hotelId;
 

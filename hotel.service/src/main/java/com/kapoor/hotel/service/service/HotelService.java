@@ -29,6 +29,20 @@ public class HotelService {
         return new Response("Hotel saved successfully");
     }
 
+    public Response updateHotel(Hotel hotel){
+        Hotel h = hotelRepository.findById(hotel.getId()).orElseThrow(() ->
+                new RuntimeException("Hotel not found"));
+
+        h.setAbout(hotel.getAbout());
+        h.setImageUrl(hotel.getImageUrl());
+        h.setName(hotel.getName());
+        h.setLocation(hotel.getLocation());
+        h.setAmenities(hotel.getAmenities());
+
+        hotelRepository.save(h);
+        return new Response("Hotel updated successfully");
+    }
+
     public Hotel getHotel(UUID id){
         return hotelRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Hotel not found"));
