@@ -27,7 +27,7 @@ public class RatingController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ratingService.save(subject,request));
     }
 
-    @GetMapping("/hotel/{id}")
+    @GetMapping("/public/hotel/{id}")
     public ResponseEntity<List<Rating>> getByHotel(@PathVariable UUID id){
         return ResponseEntity.status(HttpStatus.OK).body(ratingService.getByHotel(id));
     }

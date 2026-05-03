@@ -36,4 +36,12 @@ public class GatewayConfig {
                 .filter(LoadBalancerFilterFunctions.lb("RATING-SERVICE"))
                 .build();
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> aiServiceRoute() {
+        return route("AI.SERVICE")
+                .route(path("/api/ai/**"), HandlerFunctions.http())
+                .filter(LoadBalancerFilterFunctions.lb("AI.SERVICE"))
+                .build();
+    }
 }

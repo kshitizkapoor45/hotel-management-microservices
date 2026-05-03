@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/public/hotel")
+@RequestMapping("/api/ai")
 @RequiredArgsConstructor
 public class HotelController {
     private final HotelService hotelService;
 
-    @GetMapping("/search")
+    @GetMapping("/public/hotel-search")
     public ResponseEntity<List<HotelSearchResponse>> searchHotels(@RequestParam(name = "key")String key){
         List<HotelSearchResponse> search = hotelService.search(key);
         return ResponseEntity.ok(search);

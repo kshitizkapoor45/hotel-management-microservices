@@ -19,7 +19,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/eureka/**",
-                                "/api/hotel/public/**"
+                                "/api/hotel/public/**",
+                                "/api/rating/public/**",
+                                "/api/ai/public/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -1,5 +1,8 @@
 package com.kapoor.hotel.service.service;
 
+import com.kapoor.hotel.service.config.RatingService;
+import com.kapoor.hotel.service.dto.HotelRatingResponse;
+import com.kapoor.hotel.service.dto.Rating;
 import com.kapoor.hotel.service.model.Hotel;
 import com.kapoor.hotel.service.repository.HotelRepository;
 import com.kapoor.hotel.service.util.Response;
@@ -16,6 +19,7 @@ import java.util.UUID;
 public class HotelService {
     private final HotelRepository hotelRepository;
     private final RabbitTemplate rabbitTemplate;
+    private final RatingService ratingService;
 
     @Value("${app.rabbitmq.exchange}")
     private String exchange;
@@ -48,8 +52,13 @@ public class HotelService {
                 new RuntimeException("Hotel not found"));
     }
 
-    public List<Hotel> getAll(){
-        return hotelRepository.findAll();
+    public List<HotelRatingResponse> getAll(){
+        List<HotelRatingResponse> hotels = hotelRepository.findAll().stream()
+                .map(h -> {
+                    List<Rating> ratingsOfHotel = ratingService.getRatingsOfHotel(h.getId());
+                    return new HotelRatingResponse(h,ratingsOfHotel);
+                }).toList();
+        return hotels;
     }
 
     public List<Hotel> getRecommendedHotels(){

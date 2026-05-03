@@ -1,5 +1,6 @@
 package com.kapoor.hotel.service.controller;
 
+import com.kapoor.hotel.service.dto.HotelRatingResponse;
 import com.kapoor.hotel.service.model.Hotel;
 import com.kapoor.hotel.service.service.FileService;
 import com.kapoor.hotel.service.service.HotelService;
@@ -44,12 +45,12 @@ public class HotelController {
     }
 
     @GetMapping("/public/all")
-    public ResponseEntity<List<Hotel>> getHotels(){
+    public ResponseEntity<List<HotelRatingResponse>> getHotels(){
         return ResponseEntity.status(HttpStatus.OK).body(hotelService.getAll());
     }
 
     @GetMapping("/recommendations")
-    public ResponseEntity<List<Hotel>> getRecommendedHotels(){
+    public ResponseEntity<List<HotelRatingResponse>> getRecommendedHotels(){
         return ResponseEntity.status(HttpStatus.OK).body(hotelService.getAll());
     }
 

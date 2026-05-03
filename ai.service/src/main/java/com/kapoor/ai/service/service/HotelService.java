@@ -23,7 +23,7 @@ public class HotelService {
         List<Document> docs = vectorStore.similaritySearch(
                 SearchRequest.builder()
                         .query(query)
-                        .topK(1)
+                        .topK(3)
                         .build()
         );
         return docs.stream()
