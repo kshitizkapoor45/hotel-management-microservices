@@ -33,21 +33,16 @@ public class HotelService {
     private HotelSearchResponse mapToResponse(Document doc) {
         try {
             String hotelId = (String) doc.getMetadata().get("hotelId");
-            String rawContent = doc.getFormattedContent();
+            String hotelJson = (String) doc.getMetadata().get("hotelJson");
 
-            String jsonContent = rawContent.substring(rawContent.indexOf('{'));
-            log.info("JSON content {}",jsonContent);
-
-            Hotel hotelContent = new ObjectMapper()
-                    .readValue(jsonContent, Hotel.class);
-
+            Hotel hotelContent = new ObjectMapper().readValue(hotelJson, Hotel.class);
             return HotelSearchResponse.builder()
                     .hotelId(hotelId)
                     .score(doc.getScore())
                     .hotel(hotelContent)
                     .build();
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to read JSON",e);
+            throw new RuntimeException("Unable to read JSON", e);
         }
     }
 }

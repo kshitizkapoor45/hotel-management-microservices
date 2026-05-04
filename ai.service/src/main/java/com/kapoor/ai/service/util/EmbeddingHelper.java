@@ -67,16 +67,17 @@ public class EmbeddingHelper {
     }
 
     public String buildHotelContent(Hotel hotel) {
-        try {
-            Map<String, Object> contentMap = Map.of(
-                    "name",        hotel.getName(),
-                    "location",    hotel.getLocation(),
-                    "amenities",   hotel.getAmenities(),
-                    "about", hotel.getAbout()
-            );
-            return objectMapper.writeValueAsString(contentMap);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to parse JSON");
-        }
+        String amenitiesList = String.join(", ", hotel.getAmenities());
+
+        return String.format("""
+            %s is a hotel located in %s.
+            About: %s
+            Amenities offered: %s
+            """,
+                hotel.getName(),
+                hotel.getLocation(),
+                hotel.getAbout(),
+                amenitiesList
+        );
     }
 }

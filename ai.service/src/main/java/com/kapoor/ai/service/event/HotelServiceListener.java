@@ -1,5 +1,7 @@
 package com.kapoor.ai.service.event;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kapoor.ai.service.model.Hotel;
 import com.kapoor.ai.service.util.EmbeddingHelper;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +20,28 @@ import java.util.Map;
 public class HotelServiceListener {
     private final VectorStore vectorStore;
     private final EmbeddingHelper embeddingHelper;
+    private final ObjectMapper objectMapper;
 
     @RabbitListener(queues = "${app.rabbitmq.queues.hotel}")
     public void handleHotelEmbedding(Hotel hotel) {
         log.info("Received hotel creation event");
-        String content = embeddingHelper.buildHotelContent(hotel);
 
+        String content = embeddingHelper.buildHotelContent(hotel);  // natural language
         String docId = hotel.getId().toString();
+
+        String hotelJson = null;
+        try {
+            hotelJson = objectMapper.writeValueAsString(hotel);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         Document doc = new Document(
                 docId,
                 content,
                 Map.of(
                         "hotelId", hotel.getId(),
+                        "hotelJson", hotelJson,
                         "type", "hotel"
                 )
         );

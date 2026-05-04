@@ -44,6 +44,7 @@ public class HotelService {
         h.setAmenities(hotel.getAmenities());
 
         hotelRepository.save(h);
+        rabbitTemplate.convertAndSend(exchange, hotelKey, h);
         return new Response("Hotel updated successfully");
     }
 
