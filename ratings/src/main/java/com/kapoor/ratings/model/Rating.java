@@ -1,9 +1,6 @@
 package com.kapoor.ratings.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
@@ -25,5 +22,6 @@ public class Rating {
 
     private Integer rating;
 
+    @Column(columnDefinition = "text")
     private String feedback;
 }

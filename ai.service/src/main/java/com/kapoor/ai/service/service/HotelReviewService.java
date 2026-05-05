@@ -22,6 +22,8 @@ public class HotelReviewService {
                         review.getCons(),
                         review.getSentimentScore()
                 ))
-                .orElseThrow(() -> new RuntimeException("Hotel review not found"));
+                .orElseGet(() -> {
+                    return new HotelReviewDto();
+                });
     }
 }

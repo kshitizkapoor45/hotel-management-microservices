@@ -40,6 +40,7 @@ public class RatingServiceListener {
     public void saveEmbedding(Rating rating) {
         Document document = embeddingHelper.buildRatingDocument(rating);
         vectorStore.add(List.of(document));
+        log.info("Review embedding saved for hotel: {}", rating.getHotelId());
     }
 
     private HotelReview createNewHotelReview(Rating rating) {

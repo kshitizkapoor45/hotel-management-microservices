@@ -24,16 +24,23 @@ public class HotelService {
                 SearchRequest.builder()
                         .query(query)
                         .topK(3)
+                        .filterExpression("type == 'hotel'")
                         .build()
         );
         return docs.stream()
                 .map(doc -> mapToResponse(doc))
                 .toList();
     }
+
     private HotelSearchResponse mapToResponse(Document doc) {
         try {
             String hotelId = (String) doc.getMetadata().get("hotelId");
             String hotelJson = (String) doc.getMetadata().get("hotelJson");
+
+            if (hotelJson == null || hotelJson.isBlank()) {
+                log.warn("hotelJson missing for hotelId: {}", hotelId);
+                return null;
+            }
 
             Hotel hotelContent = new ObjectMapper().readValue(hotelJson, Hotel.class);
             return HotelSearchResponse.builder()

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/public/ai")
+@RequestMapping("/api/ai/public")
 public class AiController {
     private final HotelReviewService hotelReviewService;
 

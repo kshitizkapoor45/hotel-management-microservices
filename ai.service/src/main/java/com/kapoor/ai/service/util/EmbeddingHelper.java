@@ -34,7 +34,7 @@ public class EmbeddingHelper {
     }
 
     public void updateAiSummaryIfNeeded(HotelReview review, Rating rating) {
-        if (review.getTotalReviews() == 1 || review.getTotalReviews() % 5 == 0) {
+        if (review.getTotalReviews() == 1 || review.getTotalReviews() % 3 == 0) {
             HotelReviewDto dto = aiService.generateReviewSummary(rating);
 
             review.setSummary(dto.getSummary());
@@ -45,23 +45,25 @@ public class EmbeddingHelper {
     }
 
     public Document buildRatingDocument(Rating rating) {
-        String content = """
-        Hotel Review
-
-        Rating: %d
-        Feedback: %s
-    """.formatted(
+        String content = String.format("""
+            Hotel Review for Hotel: %s
+            Rating: %d out of 5
+            Feedback: %s
+            This review is from a guest who rated their stay %d stars.
+            """,
+                rating.getHotelId(),
                 rating.getRating(),
-                rating.getFeedback()
+                rating.getFeedback(),
+                rating.getRating()
         );
 
         return new Document(
                 content,
                 Map.of(
                         "hotelId", rating.getHotelId().toString(),
-                        "userId", rating.getUserId().toString(),
-                        "rating", rating.getRating(),
-                        "type","rating"
+                        "userId",  rating.getUserId().toString(),
+                        "rating",  rating.getRating(),
+                        "type",    "rating"
                 )
         );
     }

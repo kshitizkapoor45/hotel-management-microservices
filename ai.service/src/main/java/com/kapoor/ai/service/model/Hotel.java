@@ -21,6 +21,8 @@ public class Hotel {
 
     private String location;
 
+    private String imageUrl;
+
     private List<String> amenities;
 
     private String about;

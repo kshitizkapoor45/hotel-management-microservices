@@ -1,7 +1,9 @@
 package com.kapoor.hotel.service.service;
 
+import com.kapoor.hotel.service.config.AiService;
 import com.kapoor.hotel.service.config.RatingService;
 import com.kapoor.hotel.service.dto.HotelRatingResponse;
+import com.kapoor.hotel.service.dto.HotelReviewDto;
 import com.kapoor.hotel.service.dto.Rating;
 import com.kapoor.hotel.service.model.Hotel;
 import com.kapoor.hotel.service.repository.HotelRepository;
@@ -20,6 +22,7 @@ public class HotelService {
     private final HotelRepository hotelRepository;
     private final RabbitTemplate rabbitTemplate;
     private final RatingService ratingService;
+    private final AiService aiService;
 
     @Value("${app.rabbitmq.exchange}")
     private String exchange;
@@ -48,16 +51,20 @@ public class HotelService {
         return new Response("Hotel updated successfully");
     }
 
-    public Hotel getHotel(UUID id){
-        return hotelRepository.findById(id).orElseThrow(() ->
+    public HotelRatingResponse getHotel(UUID id){
+        Hotel h = hotelRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Hotel not found"));
+        List<Rating> ratingsOfHotel = ratingService.getRatingsOfHotel(h.getId());
+        HotelReviewDto aiSummary = aiService.getAiSummary(h.getId());
+        return new HotelRatingResponse(h,aiSummary,ratingsOfHotel);
     }
 
     public List<HotelRatingResponse> getAll(){
         List<HotelRatingResponse> hotels = hotelRepository.findAll().stream()
                 .map(h -> {
                     List<Rating> ratingsOfHotel = ratingService.getRatingsOfHotel(h.getId());
-                    return new HotelRatingResponse(h,ratingsOfHotel);
+                    HotelReviewDto aiSummary = aiService.getAiSummary(h.getId());
+                    return new HotelRatingResponse(h,aiSummary,ratingsOfHotel);
                 }).toList();
         return hotels;
     }

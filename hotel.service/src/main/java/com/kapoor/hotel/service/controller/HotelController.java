@@ -39,8 +39,8 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.OK).body(hotelService.updateHotel(hotel));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Hotel> getById(@PathVariable UUID id){
+    @GetMapping("/public/{id}")
+    public ResponseEntity<HotelRatingResponse> getById(@PathVariable UUID id){
         return ResponseEntity.status(HttpStatus.OK).body(hotelService.getHotel(id));
     }
 
