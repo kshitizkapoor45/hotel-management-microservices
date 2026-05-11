@@ -19,6 +19,9 @@ public class QueueConfig {
     @Value("${app.rabbitmq.queues.rating}")
     private String ratingQueue;
 
+    @Value("${app.rabbitmq.queues.user}")
+    private String userQueue;
+
     @Value("${app.rabbitmq.queues.hotel}")
     private String hotelQueue;
 
@@ -28,6 +31,9 @@ public class QueueConfig {
     @Value("${app.rabbitmq.routing.ratingEmbedding}")
     private String ratingKey;
 
+    @Value("${app.rabbitmq.routing.userEmbedding}")
+    private String userKey;
+
     @Bean
     public Queue ratingsQueue() {
         return new Queue(ratingQueue, true);
@@ -36,6 +42,11 @@ public class QueueConfig {
     @Bean
     public Queue hotelQueue() {
         return new Queue(hotelQueue, true);
+    }
+
+    @Bean
+    public Queue userQueue() {
+        return new Queue(userQueue, true);
     }
 
     @Bean
@@ -53,6 +64,10 @@ public class QueueConfig {
         return BindingBuilder.bind(hotelQueue()).to(exchange).with(hotelKey);
     }
 
+    @Bean
+    public Binding userBinding(DirectExchange exchange){
+        return BindingBuilder.bind(userQueue()).to(exchange).with(userKey);
+    }
 
     @Bean
     public MessageConverter messageConverter(){
